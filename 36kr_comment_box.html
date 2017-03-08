@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>36kr文章评论组件</title>
+  <style>
+  /*组织css文件：
+  css reset*/
+  *,:after,:before{
+    box-sizing: border-box;
+  }
+  a{
+    text-decoration: none;
+    background-color: transparent;
+    color: #366df0;
+    cursor: pointer;
+    transition:all .2s ease;
+  }
+    ul{
+      list-style: none;
+      padding: 0;
+    }
+    textarea{
+      overflow: auto;
+      vertical-align: top;
+      /*垂直调整*/
+      resize: vertical;
+    }
+    /*article 文章标签 博客 提升页面中的重要性 评论
+    aside 侧边栏 语义化侧边栏
+    底部 section》header+footer*/
+    article, aside，footer, header, main, nav, section{
+      display: block;
+    }
+    /*通用样式 comment css*/
+    body{
+      /*字体优化  平滑抗锯齿*/
+      -webkit-font-smoothing:antialiased;
+      font-family: Microsoft YaHei, sans-serif;
+    }
+    /*后面的覆盖前面的， 优先级 算法 class10 id100 !important最优先*/
+    h1,h2,h3,h4,h5,h6{
+      /*rem 相对单位  html font-size 默认16px；*/
+      margin-bottom: 1.6rem;
+      font-weight: 600;
+      font-size: 100%;
+    }
+    /*业务样式
+    评论样式*/
+    .comment-box{
+      font-size: 15px;
+      color: #3d464d;
+      opacity: 1;
+      width: 400px;
+    }
+    .single-post-comment h4{
+      font-size: 16px;
+      margin-bottom: .5rem;
+      margin-top: 1rem;
+    }
+    .single-post-comment h4 a{
+      color: #666;
+    }
+    .single-post-comment .notlogin textarea{
+      /*禁止复制*/
+      -webkit-user-select: none;
+      user-select: none;
+      background-color: #fafafa;
+      color: #b6cad9;
+      /*轮廓  border是盒子的一部分，占面积的 outline不占面积*/
+      outline:none;
+      /*看上去像什么*/
+      -webkit-appearance: none;
+      appearance: none;
+      padding: .2rem;
+      width: 100%;
+      background-color: #f7f7f7;
+      border: 1px solid #d3d7db;
+      -webkit-border-radius: 3px;
+      border-radius: 3px;
+      font-size: 14px;
+      margin-bottom: 15px;
+      height: 5rem;
+    }
+textarea::-webkit-input-placeholder {
+        color: #BEBEBE;
+        font-size: 12px;
+        font-weight: 900;
+}
+.single-post-comment .input-module{
+  margin-bottom: 1rem;
+}
+.single-post-comment .input-module .user{
+  clear: both;
+}
+.single-post-comment .input-module button{
+  background-color:transparent;
+  font-size: 14px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  outline:none;
+  float:right;
+  color: #008df2;
+  border: 1px solid #008df2;
+}
+.single-post-comment .notlogin button{
+  border-color: #4285f4;
+  color: #4285f4;
+}
+.single-post-comment .notlogin button a {
+
+}
+.single-post-comment .notlogin button a:hover{
+  color: #4285f4;
+}
+.single-post-comment .input-module .current-user{
+  font-size: 14px;
+  position: relative;
+}
+.single-post-comment .input-module   .current-user span{
+  color: #999;
+  position: absolute;
+  top: 5px;
+  left: 68px;
+}
+.single-post-comment .input-module .current-user .img{
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  /*行内块级元素 即具有block的能力，可以设置宽高,又像inline温良一点，不会把兄弟元素挤下去*/
+  display: inline-block;
+  background-color: red;
+  background-image: url(wuyanzu.jpg);
+   background-size: cover;
+}
+.single-post-comment .input-module .current-user a{
+  top:5px;
+  position: absolute;
+  left: 40px;
+}
+
+
+.comment-list{
+  width: 400px;
+    font-size: 14px;
+    height: 85px;
+    top:30px;
+border-top: 1px dashed #ccc;
+ position: relative;
+}
+.comment-list a{
+  background-color:transparent;
+  font-size: 14px;
+  outline:none;
+  position: absolute;
+  top: 50px;
+  left: 372px;
+}
+.comment-list .comment-user .img{
+  width:40px;
+  height: 40px;
+  position: absolute;
+  top: 20px;
+  left: 0;
+  -webkit-border-radius: 50%;
+  border-radius: 50%;
+  /*行内块级元素 即具有block的能力，可以设置宽高,又像inline温良一点，不会把兄弟元素挤下去*/
+  display: inline-block;
+   background-size: cover;
+}
+.comment-list .comment-user .Username{
+  color: #4285f4;
+  position: absolute;
+  top: 10px;
+  left: 60px;
+  font-size: 14px;
+  float:left;
+
+}
+.comment-list .comment-user .Username .Howtime{
+  color:#ccc;
+  font-size: 13px;
+  margin-left: 4px;
+}
+.comment-list .comment-user .param-content{
+  position: absolute;
+  top: 30px;
+  left: 60px;
+  color:#666;
+  font-size: 14px;
+}
+  </style>
+</head>
+<body>
+  <div class="comment-box">
+    <section class="single-post-comment">
+      <h4>
+        <a href="#" name="comment">参与讨论</a>
+      </h4>
+      <div class="input-module notlogin">
+        <textarea placeholder="请登录后参与评论..."></textarea>
+        <div class="user">
+          <button title="请登录后参与评论">
+            <a href="javascript:;">提交评论</a>
+          </button>
+          <div class="current-user">
+            <span class="img"></span>
+            <a href="" class="name">登录</a>
+            <span>后参与讨论</span>
+          </div>
+        </div>
+      </div>
+      <div class="comment-list">
+        <a href="">回复</a>
+        <div class="comment-user">
+           <span class="img" style="background-image:url(wuyanzu.jpg)"></span>
+           <span class="Username">吴彦祖8848<span class="Howtime">• 43分钟前</span></span>
+           <span class="param-content">听说你很帅</span>
+        </div>
+      </div>
+      <div class="comment-list">
+        <a href="">回复</a>
+        <div class="comment-user">
+           <span class="img" style="background-image:url(pengyuyan.jpg)"></span>
+           <span class="Username">彭于晏大大666<span class="Howtime">• 43分钟前</span></span>
+           <span class="param-content">楼主最帅</span>
+        </div>
+      </div>
+    <section>
+  </div>
+</body>
+<html>
